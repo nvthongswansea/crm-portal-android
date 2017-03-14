@@ -5,11 +5,12 @@ export const login = (username, password) => {
 	data.append('username', username);
 	data.append('password', password);
 	return axios.post(VTIGER_URL + '/vtigerservice.php?service=restful&do=signinAdmin', data)
-		.then(req => {
-			if (req.success)
+		.then(res => {
+			let body = res.data;
+			if (body.success)
 				return {
-					username: req.user.username,
-					accesskey: req.user.accesskey
+					username: body.user.username,
+					accesskey: body.user.accesskey
 				};
 			return false;
 		})

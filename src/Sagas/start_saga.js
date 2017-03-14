@@ -86,7 +86,7 @@ function* loginFlow(navigator) {
 }
 
 function* checkAccesskey() {
-	const accesskey = yield call(getStorage, 'accessskey');
+	const accesskey = yield call(getStorage, 'accesskey');
 	if (accesskey)
 		return true;
 	return false;
