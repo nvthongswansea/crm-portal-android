@@ -1,0 +1,1 @@
+export const VTIGER_URL='http://crm.safsa.vn';
