@@ -51,7 +51,7 @@ const setStorage = (key, value) => {
 	}
 }
 
-function* authenticate(username, password, navigator) {
+function* authenticateOnLogin(username, password, navigator) {
 	console.log('logging in ...');
 	try {
 		const data = yield call(login, username, password);
@@ -76,13 +76,19 @@ function* authenticate(username, password, navigator) {
 function* loginFlow(navigator) {
 	while (true) {
 		const { username, password } = yield take(ATypes.LOGIN);
-		const logintask = yield fork(authenticate, username, password, navigator);
+		const logintask = yield fork(authenticateOnLogin, username, password, navigator);
 		const action = yield take([ATypes.LOGOUT, ATypes.LOGIN_FAILED]);
 		console.log(action.type)
 		if (action.type == ATypes.LOGOUT)
 			yield cancel(logintask);
 		yield call(removeStorage, ['username', 'accesskey']);
 	}
+}
+
+function* logoutOnAutheticatedFlow() {
+	const action = yield take(ATypes.LOGOUT);
+	console.log(action.type)
+	yield call(removeStorage, ['username', 'accesskey']);
 }
 
 function* checkAccesskey() {
@@ -93,23 +99,23 @@ function* checkAccesskey() {
 }
 
 export function* startFlow() {
-	console.log('app is starting...')
-	try {
-		const { navigator } = yield take(ATypes.START);
-		const checkKey = yield call(checkAccesskey);
+	while (true) {
+		console.log('app is starting...')
+		try {
+			const { navigator } = yield take(ATypes.START);
+			const checkKey = yield call(checkAccesskey);
 
-		if (checkKey) {
-			yield call(redirectHomeScreen, navigator);
-			yield put(StartAction.finishedStart());
-			const action = yield take([ATypes.LOGOUT, ATypes.LOGIN_FAILED]);
-			console.log(action.type)
-			yield call(removeStorage, ['username', 'accesskey']);
-		} else {
-			yield call(redirectLoginScreen, navigator);
-			yield put(StartAction.finishedStart());
-			yield fork(loginFlow, navigator);
+			if (checkKey) {
+				yield call(redirectHomeScreen, navigator);
+				yield put(StartAction.finishedStart());
+				yield fork(logoutOnAutheticatedFlow)
+			} else {
+				yield call(redirectLoginScreen, navigator);
+				yield put(StartAction.finishedStart());
+				yield fork(loginFlow, navigator);
+			}
+		} catch (e) {
+			console.log(e);
 		}
-	} catch (e) {
-		console.log(e);
 	}
 }

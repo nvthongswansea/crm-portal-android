@@ -11,7 +11,11 @@ export default function(state = {
 		case ATypes.LOGIN_SUCCESS:
 			return {
 				loading: false,
-				success: true
+				success: true,
+				uInfo: {
+					accesskey: action.accesskey,
+					username: action.username
+				}
 			};
 		case ATypes.LOGIN_FAILED: 
 			return {

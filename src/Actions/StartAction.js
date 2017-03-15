@@ -9,7 +9,12 @@ const finishedStart = () => ({
 	type: ATypes.START_FINISHED
 });
 
+const doStop = () => ({
+    type: ATypes.STOP
+})
+
 export default {
     doStart,
-    finishedStart
+    finishedStart,
+    doStop
 }

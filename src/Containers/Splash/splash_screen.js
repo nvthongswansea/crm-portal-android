@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Image, Dimensions, Text, ActivityIndicator} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Image, Dimensions, Text, ActivityIndicator } from 'react-native';
 import StartAction from '../../Actions/StartAction';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 
 const iconSAF = require("../../asset/pictures/logo.png");
 const loading = require("../../asset/pictures/loading.gif");
@@ -14,19 +14,28 @@ class Splash extends Component {
 		super(props);
 	}
 	componentDidMount() {
-		this.props.doStart(this.props.navigator);
+		console.log('mounted')
+		setTimeout(() => { 
+			this.props.doStart(this.props.navigator); 
+		}, 1200);
+
+	}
+	componentWillUnmount() {
+		console.log('unmounting..')
 	}
 	render() {
+		console.log(this.props.data.loading)
 		return (
-		<View style={styles.container}> 
-			<View style={styles.logoContainer}> 
-				<Image style={styles.iconSAF} source={iconSAF} resizeMode="contain"/>
-				{this.props.data.loading? <Text style={styles.loading}>Loading...</Text>:<View></View>}
+			<View style={styles.container}>
+				<View style={styles.logoContainer}>
+					<Image style={styles.iconSAF} source={iconSAF} resizeMode="contain" />
+					{this.props.data.loading ? <Text style={styles.loading}>Đang tải...</Text> 
+					: <Text style={styles.loading}>Một sản phẩm của SAF.</Text>}
+				</View>
 			</View>
-		</View>
 		);
 	}
-} 
+}
 function mapStateToProps(state) {
 	return {
 		data: state.StartReducer
@@ -34,12 +43,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-   return bindActionCreators({doStart: StartAction.doStart}, dispatch);
+	return bindActionCreators({ doStart: StartAction.doStart }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Splash);
 
-const styles ={
+const styles = {
 	container: {
 		flex: 1,
 		backgroundColor: '#e67e22'

@@ -1,4 +1,6 @@
 import ATypes from './action_types';
+//Dinh nghia cac action lien quan toi dang nhap
+//Cac action return 1 object tuong ung voi moi hanh dong
 
 const doLogin = (username, password) => ({
 	type: ATypes.LOGIN,

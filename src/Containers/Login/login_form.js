@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, TextInput, Image, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {View, StyleSheet, TextInput, Image, Text, TouchableOpacity, ActivityIndicator, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
 import {bindActionCreators} from 'redux';
@@ -18,6 +18,13 @@ class LoginForm extends Component {
 		this.onUsernameChange=this.onUsernameChange.bind(this);
 		this.onPasswordChange=this.onPasswordChange.bind(this);
 		this.onLogin=this.onLogin.bind(this);
+	}
+
+	componentWillMount(){
+		BackAndroid.addEventListener('hardwareBackPress', () => {
+			console.log('cc ay')
+			return false;
+		});
 	}
 
 	onUsernameChange(e) {
@@ -75,12 +82,15 @@ class LoginForm extends Component {
 	}
 }
 
+//map state cua he thong thanh props cua component
 function mapStateToProps(state) {
+	//map state LoginReducer thanh props
 	return {
 		data: state.LoginReducer
 	};
 }
 
+//map function doLogin tu LoginAction (da import o tren) thanh 1 props
 function mapDispatchToProps(dispatch) {
    return bindActionCreators({doLogin: LoginAction.doLogin}, dispatch);
 }
