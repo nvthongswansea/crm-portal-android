@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, KeyboardAvoidingView, View, Image, Dimensions, Text} from 'react-native';
-import LoginForm from '../../Containers/Login/'; 
+import LoginForm from '../../Containers/LoginForm/'; 
 
 const iconSAF = require("../../asset/pictures/logo.png");
 const { width, height } = Dimensions.get("window");

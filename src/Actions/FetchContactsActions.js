@@ -1,12 +1,13 @@
 import ATypes from './action_types';
 
-const fetchContacts = () => ({
-    type: ATypes.FETCH_CONTACTS
+const fetchContacts = (keyword) => ({
+    type: ATypes.FETCH_CONTACTS,
+    keyword
 })
 
 const fetchContactsSuccess = (data) => ({
     type: ATypes.FETCH_CONTACTS_SUCCESS,
-    payload: data
+    data
 })
 
 const fetchContactsFailed = (error) => ({
@@ -16,6 +17,6 @@ const fetchContactsFailed = (error) => ({
 
 export default {
     fetchContacts,
-    fetchContactsSucess,
+    fetchContactsSuccess,
     fetchContactsFailed
 }

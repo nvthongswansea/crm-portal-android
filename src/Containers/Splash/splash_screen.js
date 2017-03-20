@@ -15,8 +15,8 @@ class Splash extends Component {
 	}
 	componentDidMount() {
 		console.log('mounted')
-		setTimeout(() => { 
-			this.props.doStart(this.props.navigator); 
+		setTimeout(() => {
+			this.props.doStart(this.props.navigator);
 		}, 1200);
 
 	}
@@ -29,8 +29,7 @@ class Splash extends Component {
 			<View style={styles.container}>
 				<View style={styles.logoContainer}>
 					<Image style={styles.iconSAF} source={iconSAF} resizeMode="contain" />
-					{this.props.data.loading ? <Text style={styles.loading}>Đang tải...</Text> 
-					: <Text style={styles.loading}>Một sản phẩm của SAF.</Text>}
+					<Text style={styles.loading}>Một sản phẩm của SAF.</Text>
 				</View>
 			</View>
 		);
@@ -51,7 +50,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Splash);
 const styles = {
 	container: {
 		flex: 1,
-		backgroundColor: '#e67e22'
+		backgroundColor: '#E0E0E0'
 	},
 	logoContainer: {
 		alignItems: 'center',
@@ -61,9 +60,11 @@ const styles = {
 		height: "70%"
 	},
 	loading: {
-		color: '#FFF',
+		color: '#0088cc',
 		width: 160,
 		textAlign: 'center',
-		opacity: 0.9
+		opacity: 0.9,
+		fontSize: 16,
+		fontWeight: 'bold'
 	}
 }

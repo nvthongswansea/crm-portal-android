@@ -4,19 +4,20 @@ export default function(state = {
 	loading: false
 }, action) {
 	switch (action.type) {
-		case ATypes.LOGIN:
+		case ATypes.FETCH_CONTACTS:
 			return {
 				loading: true
 			};
-		case ATypes.LOGIN_SUCCESS:
+		case ATypes.FETCH_CONTACTS_SUCCESS:
 			return {
 				loading: false,
-				success: true
+				success: true,
+				payload: action.data
 			};
-		case ATypes.LOGIN_FAILED: 
+		case ATypes.FETCH_CONTACTS_FAILED: 
 			return {
 				loading: false,
-				success: false
+				success: false,
 			}
 	}
 	return state;
