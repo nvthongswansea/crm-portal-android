@@ -14,7 +14,7 @@ export default class Login extends Component {
 				<Text style={styles.welcome}>Chào mừng quý khách! Xin mời đăng nhập.</Text>
 			</View>
 			<View style={styles.formContainer}> 
-				<LoginForm/>
+				<LoginForm navigator={this.props.navigator}/>
 			</View>
 		</KeyboardAvoidingView>
 		);

@@ -9,8 +9,7 @@ import { AsyncStorage } from 'react-native';
 import ATypes from '../Actions/action_types';
 import { login } from '../API/API_login';
 import StartAction from '../Actions/StartAction';
-import LoginAction from '../Actions/LoginAction';
-import loginFlow from './login_saga';
+
 
 const getStorage = (key) => {
 	try {
@@ -24,30 +23,22 @@ const getStorage = (key) => {
 
 const removeStorage = (array) => {
 	try {
-		AsyncStorage.multiRemove(array, (e) => {
-			console.log(e)
-		});
+		AsyncStorage.multiRemove(array);
 	} catch (e) {
 		console.log(e.message);
 	}
 }
 
 const redirectLoginScreen = (navigator) => {
-	navigator.push({
+	navigator.resetTo({
 		name: "Login"
 	})
 }
 
 const redirectHomeScreen = (navigator) => {
-	navigator.push({
+	navigator.resetTo({
 		name: "Home"
 	})
-}
-
-function* logoutOnAutheticatedFlow() {
-	const action = yield take(ATypes.LOGOUT);
-	console.log(action.type)
-	yield call(removeStorage, ['username', 'accesskey']);
 }
 
 function* checkAccesskey() {
@@ -57,24 +48,19 @@ function* checkAccesskey() {
 	return false;
 }
 
-export function* startFlow() {
-	while (true) {
-		console.log('app is starting...')
-		try {
-			const { navigator } = yield take(ATypes.START);
-			const checkKey = yield call(checkAccesskey);
+export function* startFlow(action) {
+	console.log('app is starting...')
+	try {
+		const checkKey = yield call(checkAccesskey);
 
-			if (checkKey) {
-				yield call(redirectHomeScreen, navigator);
-				yield put(StartAction.finishedStart());
-				yield fork(logoutOnAutheticatedFlow)
-			} else {
-				yield call(redirectLoginScreen, navigator);
-				yield put(StartAction.finishedStart());
-				yield fork(loginFlow, navigator);
-			}
-		} catch (e) {
-			console.log(e);
+		if (checkKey) {
+			yield call(redirectHomeScreen, action.navigator);
+			yield put(StartAction.finishedStart());
+		} else {
+			yield call(redirectLoginScreen, action.navigator);
+			yield put(StartAction.finishedStart());
 		}
+	} catch (e) {
+		console.log(e);
 	}
 }

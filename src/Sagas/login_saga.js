@@ -8,12 +8,10 @@ import {
 import { AsyncStorage } from 'react-native';
 import ATypes from '../Actions/action_types';
 import { login } from '../API/API_login';
-import StartAction from '../Actions/StartAction';
 import LoginAction from '../Actions/LoginAction';
-import logoutFlow from './logout_saga';
 
 const redirectHomeScreen = (navigator) => {
-	navigator.push({
+	navigator.resetTo({
 		name: "Home"
 	})
 }
@@ -25,10 +23,10 @@ const setStorage = (key, value) => {
 	}
 }
 
-function* authenticateOnLogin(username, password, navigator) {
-	console.log('logging in ...');
+export function* loginFlow(action) {
 	try {
-		const data = yield call(login, username, password);
+		console.log('logging in ...');
+		const data = yield call(login, action.username, action.password);
 		console.log(data);
 		if (!data) {
 			yield put(LoginAction.loginFailed('wrong password or username'));
@@ -36,7 +34,7 @@ function* authenticateOnLogin(username, password, navigator) {
 			yield call(setStorage, 'accesskey', data.accesskey);
 			yield call(setStorage, 'username', data.username);
 			yield put(LoginAction.loginSuccess(data.accesskey, data.username));
-			yield call(redirectHomeScreen, navigator);
+			yield call(redirectHomeScreen, action.navigator);
 		}
 	} catch (e) {
 		yield put(LoginAction.loginFailed(e.message));
@@ -48,10 +46,6 @@ function* authenticateOnLogin(username, password, navigator) {
 }
 
 
-export default function* loginFlow(navigator) {
-	while (true) {
-		const { username, password } = yield take(ATypes.LOGIN);
-		const logintask = yield fork(authenticateOnLogin, username, password, navigator);
-		yield call(logoutFlow, logintask);
-	}
-}
+// export default function* loginFlow(action) {
+// 	yield call(authenticateOnLogin, action.username, action.password, action.navigator);
+// }

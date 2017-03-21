@@ -12,11 +12,21 @@ import FetchContactsActions from '../Actions/FetchContactsActions';
 
 export function* fetchContactsFlow(action) {
     try {
-        const data = yield call(fetchContacts, 1, action.keyword);
+        const data = yield call(fetchContacts, 10, 1, action.keyword);
         yield put(FetchContactsActions.fetchContactsSuccess(data));
     } catch (e) {
         console.log(e.message);
         yield put(FetchContactsActions.fetchContactsFailed(e));
     }
 
+}
+
+export function* fetchMoreContacts(action) {
+    try {
+        const data = yield call(fetchContacts, 10, action.page, action.keyword);
+        yield put(FetchContactsActions.fetchMoreContactsSuccess(data));
+    } catch (e) {
+        console.log(e.message);
+        yield put(FetchContactsActions.fetchMoreContactsFailed(e));
+    }
 }

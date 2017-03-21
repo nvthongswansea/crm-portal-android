@@ -13,20 +13,28 @@ import LoginAction from '../Actions/LoginAction';
 
 
 const removeStorage = (array) => {
+	console.log('cc1')
 	try {
-		AsyncStorage.multiRemove(array, (e) => {
-			console.log(e)
-		});
+		AsyncStorage.multiRemove(array);
 	} catch (e) {
 		console.log(e.message);
 	}
 }
 
-
-export default function* logoutFlow(logintask) {
-		const action = yield take([ATypes.LOGOUT, ATypes.LOGIN_FAILED]);
-		console.log(action.type)
-		if (action.type == ATypes.LOGOUT)
-			yield cancel(logintask);
-		yield call(removeStorage, ['username', 'accesskey']);
+const redirectLoginScreen = (navigator) => {
+	navigator.resetTo({
+		name: "Login"
+	})
 }
+
+
+export function* logoutFlow(action) {
+	try {
+		console.log('logging out...')
+		yield call(removeStorage, ['username', 'accesskey']);
+		yield call(redirectLoginScreen, action.navigator);
+	}
+	catch (e) { }
+
+}
+

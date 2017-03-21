@@ -15,8 +15,28 @@ const fetchContactsFailed = (error) => ({
     error
 })
 
+const fetchMoreContacts = (keyword, page) => ({
+    type: ATypes.LOAD_MORE_CONTACTS,
+    keyword,
+    page
+})
+
+const fetchMoreContactsSuccess = (data) => ({
+    type: ATypes.LOAD_MORE_CONTACTS_SUCCESS,
+    data
+})
+
+const fetchMoreContactsFailed = (error) => ({
+    type: ATypes.LOAD_MORE_CONTACTS_FAILED,
+    error
+})
+
+
 export default {
     fetchContacts,
     fetchContactsSuccess,
-    fetchContactsFailed
+    fetchContactsFailed,
+    fetchMoreContacts,
+    fetchMoreContactsSuccess,
+    fetchMoreContactsFailed
 }

@@ -42,7 +42,7 @@ class LoginForm extends Component {
 
 	onLogin() {
 		dismissKeyboard();
-		this.props.doLogin(this.state.username, this.state.password);
+		this.props.doLogin(this.state.username, this.state.password, this.props.navigator);
 	}
 
 	render() {
