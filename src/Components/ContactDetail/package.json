@@ -1,0 +1,6 @@
+{
+  "name": "ContactDetail",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./detail_screen.js"
+}

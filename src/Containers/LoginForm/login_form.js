@@ -22,7 +22,6 @@ class LoginForm extends Component {
 
 	componentWillMount(){
 		BackAndroid.addEventListener('hardwareBackPress', () => {
-			console.log('cc ay')
 			return false;
 		});
 	}

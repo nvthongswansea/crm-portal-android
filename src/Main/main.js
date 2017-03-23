@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import Login from '../Components/Login/';
 import Home from '../Components/Home/';
 import Splash from '../Containers/Splash/';
+import ContactDetail from '../Components/ContactDetail/';
 import { Provider } from 'react-redux';
 import store from '../Store/';
 
@@ -30,6 +31,15 @@ export default class main extends Component {
           navigator={navigator} />
       );
     }
+    if (name === "ContactDetail") {
+      return (
+        <ContactDetail 
+          navigator={navigator}
+          contactId={route.contactId}
+        />
+      )
+    }
+
   } 
   render() {
     return (

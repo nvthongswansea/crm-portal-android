@@ -8,12 +8,10 @@ import {
 import { AsyncStorage } from 'react-native';
 import ATypes from '../Actions/action_types';
 import { login } from '../API/API_login';
-import StartAction from '../Actions/StartAction';
-import LoginAction from '../Actions/LoginAction';
+import LogoutAction from '../Actions/LogoutAction';
 
 
 const removeStorage = (array) => {
-	console.log('cc1')
 	try {
 		AsyncStorage.multiRemove(array);
 	} catch (e) {
@@ -21,20 +19,21 @@ const removeStorage = (array) => {
 	}
 }
 
-const redirectLoginScreen = (navigator) => {
-	navigator.resetTo({
+export function* redirectLoginScreen(action) {
+	action.navigator.resetTo({
 		name: "Login"
 	})
 }
-
 
 export function* logoutFlow(action) {
 	try {
 		console.log('logging out...')
 		yield call(removeStorage, ['username', 'accesskey']);
-		yield call(redirectLoginScreen, action.navigator);
+		yield put(LogoutAction.finishLogout(action.navigator));
 	}
-	catch (e) { }
+	catch (e) { 
+		yield put(LogoutAction.finishLogout(action.navigator));
+	}
 
 }
 

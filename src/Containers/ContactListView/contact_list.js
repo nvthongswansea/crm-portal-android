@@ -18,6 +18,8 @@ class ContactList extends Component {
         this._onRefresh = this._onRefresh.bind(this);
         this.renderFooter = this.renderFooter.bind(this);
         this.fetchMoreContacts = this.fetchMoreContacts.bind(this);
+        this.openDetail=this.openDetail.bind(this);
+        this.renderRow=this.renderRow.bind(this);
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.keyword != nextProps.keyword) {
@@ -39,8 +41,19 @@ class ContactList extends Component {
             this.props.doFetch(this.props.keyword);
         })
     }
+    openDetail(contactId) {
+        console.log('press '+contactId)
+        this.props.navigator.push({
+            name: "ContactDetail",
+            contactId
+        })
+    }
     componentDidMount() {
-        this.props.doFetch(this.props.keyword);
+        this.setState({
+            currentPage: 1
+        }, () => {
+            this.props.doFetch(this.props.keyword);
+        })
     }
     fetchMoreContacts() {
         this.setState({
@@ -63,7 +76,7 @@ class ContactList extends Component {
     renderRow(data) {
         return (
             <View>
-                <TouchableHighlight underlayColor={'dodgerblue'} onPress={() => console.log('pressed')}>
+                <TouchableHighlight underlayColor={'dodgerblue'} onPress={() => {this.openDetail(data.id)}}>
                     <View style={styles.row}>
                         <Text style={styles.text}>
                             <Text style={styles.boldText}>Tên: </Text>{data.name}{"\n"}

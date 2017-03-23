@@ -75,7 +75,7 @@ export default class Home extends Component {
 							</View>
 						</View>
 						<View style={{ height: "85%", backgroundColor: '#F6F6F6' }}>
-							<ContactList keyword={this.state.keyword} />
+							<ContactList keyword={this.state.keyword} navigator={this.props.navigator}/>
 						</View>
 					</View>
 				</SideMenu>

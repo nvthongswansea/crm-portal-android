@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,20 +8,25 @@ import LogoutAction from '../../Actions/LogoutAction';
 class LogOutBtn extends Component {
     render() {
         return (
-            <Button
-                backgroundColor='#517fa4'
-                title='LOGOUT'
-                onPress={() => this.props.doLogout(this.props.navigator)}
-            />
+            <View>
+                {this.props.data.loading ?
+                    <ActivityIndicator /> :
+                    <Button
+                        backgroundColor='#517fa4'
+                        title='LOGOUT'
+                        onPress={() => this.props.doLogout(this.props.navigator)}
+                    />
+                }
+            </View>
         )
     }
 }
 
 //map state cua he thong thanh props cua component
 function mapStateToProps(state) {
-    //map state LoginReducer thanh props
+    //map state LogoutReducer thanh props
     return {
-        data: state.FetchContactReducer
+        data: state.LogoutReducer
     };
 }
 

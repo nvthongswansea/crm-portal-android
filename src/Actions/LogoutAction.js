@@ -5,8 +5,9 @@ const doLogout = (navigator) => ({
     navigator
 })
 
-const finishLogout = () => ({
-    type: ATypes.LOGOUT_FINISHED
+const finishLogout = (navigator) => ({
+    type: ATypes.LOGOUT_FINISHED,
+    navigator
 })
 
 export default {
